@@ -1,32 +1,37 @@
-# 使用 pm2 以提升效能
+# pm2 with loadtest
 
-### 相關套件
-  - pm2
-    ```npm install pm2 -g```
-  - loadtest
-    ```npm install loadtest -g```
+## Environment
+  - node.js ：v12.16.1
 
-### 啟動及測試
-  - 狀況一：
-    - 啟動 server：
+## Installation
+  - install packages：
+    ```npm install```
+  - install pm2
+    - install : ```npm install pm2 -g```
+    - Official website：https://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/
+  - install loadtest
+    - install : ```npm install loadtest -g```
+    - command:```loadtest [-n requests] [-c concurrency] [-k] URL```
+    - npm：https://www.npmjs.com/package/loadtest
+
+## Usage
+  - With pm2：
+    - start server：
       ```node app.js```
-    - 壓力測試
+    - load test:
       ```loadtest -n 1000 -c 100 http://localhost:3000/```
-    - 測試完畢後，關閉 server
-  - 狀況二：
-    - 啟動 pm2：建立 cluster ，共 4 個 worker
+    - after load test，close server
+  - Without pm2：
+    - start server with pm2：set up cluster (4 workers)
       ```pm2 start -i 4 app.js```
-      或
-      (命名 cluster 為 server)
+      or
+      (named cluster:server)
       ```pm2 start -i 4 --name server app.js``` 
-    - 壓力測試
+    - load test:
       ```loadtest -n 1000 -c 100 http://localhost:3000/```
-    - 測試完畢後，關閉 server
+    - after load test，close server
       ```pm2 delete app```
+      or
+      (named cluster:server)
+      ```pm2 delete server```
 
-### 補充：pm2 指令
-  - 官網：https://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/
-
-### loadtest 指令
-  ```loadtest [-n requests] [-c concurrency] [-k] URL```
-  - 官網：https://www.npmjs.com/package/loadtest
